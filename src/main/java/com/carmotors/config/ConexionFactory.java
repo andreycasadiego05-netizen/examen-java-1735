@@ -7,11 +7,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-/**
- * Fábrica de conexiones a la base de datos MySQL aplicando el patrón Singleton.
- * Compatible con llamadas directas (ConexionFactory.getConnection()) y a través de la instancia.
- * Permite configuración externa mediante db.properties o variables de entorno.
- */
+
 public class ConexionFactory {
 
     private static final String DEFAULT_DRIVER = "com.mysql.cj.jdbc.Driver";
