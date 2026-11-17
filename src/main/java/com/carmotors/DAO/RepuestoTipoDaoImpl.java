@@ -1,6 +1,6 @@
 package com.carmotors.DAO;
 
-import com.carmotors.dao.RepuestoTipoDao;
+import com.carmotors.DAO.RepuestoTipoDao;
 import com.carmotors.modelo.RepuestoTipo;
 import com.carmotors.config.ConexionFactory;
 
