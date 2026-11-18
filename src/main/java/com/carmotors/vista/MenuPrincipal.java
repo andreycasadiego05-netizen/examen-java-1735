@@ -1,14 +1,18 @@
 package com.carmotors.vista;
 
 import com.carmotors.controlador.ClienteControlador;
+import com.carmotors.controlador.FacturaControlador;
 import com.carmotors.controlador.ProveedorControlador;
 import com.carmotors.controlador.ServicioControlador;
 import com.carmotors.dao.impl.ClienteDaoImpl;
+import com.carmotors.dao.impl.FacturaDaoImpl;
 import com.carmotors.dao.impl.ProveedorDaoImpl;
 import com.carmotors.dao.impl.ServicioDaoImpl;
 import com.carmotors.servicio.ClienteServicio;
+import com.carmotors.servicio.FacturaServicio;
 import com.carmotors.servicio.InventarioServiceMock;
 import com.carmotors.servicio.ProveedorServicio;
+import com.carmotors.servicio.ServicioResumenMock;
 import com.carmotors.servicio.TallerServicio;
 
 import java.util.Scanner;
@@ -19,6 +23,7 @@ public class MenuPrincipal {
     private final ClienteView clienteView;
     private final MenuProveedor menuProveedor;
     private final MenuServicio menuServicio;
+    private final MenuFactura menuFactura;
     private final MenuCatalogo menuCatalogo;
 
     public MenuPrincipal() {
@@ -43,6 +48,13 @@ public class MenuPrincipal {
         ServicioControlador servicioControlador = new ServicioControlador(tallerServicio);
         this.menuServicio = new MenuServicio(servicioControlador);
 
+        // Inicializar componentes del módulo Facturación (opción 5)
+        FacturaDaoImpl facturaDao = new FacturaDaoImpl();
+        ServicioResumenMock servicioResumen = new ServicioResumenMock();
+        FacturaServicio facturaServicio = new FacturaServicio(facturaDao, servicioResumen);
+        FacturaControlador facturaControlador = new FacturaControlador(facturaServicio);
+        this.menuFactura = new MenuFactura(scanner, facturaControlador);
+
         // Inicializar componentes del módulo Catálogos
         this.menuCatalogo = new MenuCatalogo(scanner);
     }
@@ -55,9 +67,9 @@ public class MenuPrincipal {
             System.out.println("=========================================");
             System.out.println("1. Gestión de Clientes");
             System.out.println("2. Gestión de Vehículos (Próximamente)");
-            System.out.println("3. Gestión de Proveedores y Catálogos");
+            System.out.println("3. Gestión de Proveedores");
             System.out.println("4. Gestión de Servicios y Taller");
-            System.out.println("5. Facturación (Próximamente)");
+            System.out.println("5. Facturación y Cobros");
             System.out.println("6. Gestión de Catálogos del Sistema");
             System.out.println("0. Salir");
             System.out.println("=========================================");
@@ -76,7 +88,6 @@ public class MenuPrincipal {
                     clienteView.mostrarMenu();
                     break;
                 case 2:
-                case 5:
                     System.out.println("[Aviso] Módulo en desarrollo.");
                     break;
                 case 3:
@@ -84,6 +95,9 @@ public class MenuPrincipal {
                     break;
                 case 4:
                     menuServicio.mostrarMenu();
+                    break;
+                case 5:
+                    menuFactura.mostrarMenu();
                     break;
                 case 6:
                     menuCatalogo.mostrarMenu();
