@@ -100,7 +100,3 @@ public class InventarioServicio {
         return repuestoDao.buscarPorCodigo(codigo.trim().toUpperCase());
     }
 }
-
-
-
----
