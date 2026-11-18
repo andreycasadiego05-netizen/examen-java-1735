@@ -19,6 +19,7 @@ public class MenuPrincipal {
     private final ClienteView clienteView;
     private final MenuProveedor menuProveedor;
     private final MenuServicio menuServicio;
+    private final MenuCatalogo menuCatalogo;
 
     public MenuPrincipal() {
         this.scanner = new Scanner(System.in);
@@ -41,19 +42,23 @@ public class MenuPrincipal {
         TallerServicio tallerServicio = new TallerServicio(servicioDao, inventarioMock);
         ServicioControlador servicioControlador = new ServicioControlador(tallerServicio);
         this.menuServicio = new MenuServicio(servicioControlador);
+
+        // Inicializar componentes del módulo Catálogos
+        this.menuCatalogo = new MenuCatalogo(scanner);
     }
 
     public void iniciar() {
         int opcion = -1;
         do {
             System.out.println("\n=========================================");
-            System.out.println("   SISTEMA DE GESTIÓN TALLER CARMOTORS   ");
+            System.out.println("   SISTEMA DE GESTIÓN TALLER CARMOTORS  ");
             System.out.println("=========================================");
             System.out.println("1. Gestión de Clientes");
             System.out.println("2. Gestión de Vehículos (Próximamente)");
             System.out.println("3. Gestión de Proveedores y Catálogos");
             System.out.println("4. Gestión de Servicios y Taller");
             System.out.println("5. Facturación (Próximamente)");
+            System.out.println("6. Gestión de Catálogos del Sistema");
             System.out.println("0. Salir");
             System.out.println("=========================================");
             System.out.print("Seleccione una opción: ");
@@ -79,6 +84,9 @@ public class MenuPrincipal {
                     break;
                 case 4:
                     menuServicio.mostrarMenu();
+                    break;
+                case 6:
+                    menuCatalogo.mostrarMenu();
                     break;
                 case 0:
                     System.out.println("Saliendo del sistema. ¡Hasta pronto!");

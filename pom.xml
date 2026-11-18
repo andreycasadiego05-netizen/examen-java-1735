@@ -10,6 +10,7 @@
     <packaging>jar</packaging>
 
     <name>Sistema para el Taller Automotriz CarMotors</name>
+    <description>Sistema de Gestion de Taller (SGT) - CarMotors</description>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -59,8 +60,9 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
+                    <source>17</source>
+                    <target>17</target>
+                    <release>17</release>
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>

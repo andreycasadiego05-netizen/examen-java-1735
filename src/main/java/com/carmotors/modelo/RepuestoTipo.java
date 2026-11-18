@@ -1,5 +1,7 @@
 package com.carmotors.modelo;
 
+import java.util.Objects;
+
 public class RepuestoTipo {
 
     private Integer id;
@@ -31,6 +33,19 @@ public class RepuestoTipo {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RepuestoTipo that = (RepuestoTipo) o;
+        return Objects.equals(id, that.id) && Objects.equals(nombre, that.nombre);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nombre);
     }
 
     @Override
