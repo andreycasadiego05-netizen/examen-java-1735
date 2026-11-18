@@ -2,10 +2,14 @@ package com.carmotors.vista;
 
 import com.carmotors.controlador.ClienteControlador;
 import com.carmotors.controlador.ProveedorControlador;
+import com.carmotors.controlador.ServicioControlador;
 import com.carmotors.dao.impl.ClienteDaoImpl;
 import com.carmotors.dao.impl.ProveedorDaoImpl;
+import com.carmotors.dao.impl.ServicioDaoImpl;
 import com.carmotors.servicio.ClienteServicio;
+import com.carmotors.servicio.InventarioServiceMock;
 import com.carmotors.servicio.ProveedorServicio;
+import com.carmotors.servicio.TallerServicio;
 
 import java.util.Scanner;
 
@@ -14,6 +18,7 @@ public class MenuPrincipal {
     private final Scanner scanner;
     private final ClienteView clienteView;
     private final MenuProveedor menuProveedor;
+    private final MenuServicio menuServicio;
 
     public MenuPrincipal() {
         this.scanner = new Scanner(System.in);
@@ -29,6 +34,13 @@ public class MenuPrincipal {
         ProveedorServicio proveedorServicio = new ProveedorServicio(proveedorDao);
         ProveedorControlador proveedorControlador = new ProveedorControlador(proveedorServicio);
         this.menuProveedor = new MenuProveedor(proveedorControlador);
+
+        // Inicializar componentes del módulo Servicios y Taller
+        ServicioDaoImpl servicioDao = new ServicioDaoImpl();
+        InventarioServiceMock inventarioMock = new InventarioServiceMock();
+        TallerServicio tallerServicio = new TallerServicio(servicioDao, inventarioMock);
+        ServicioControlador servicioControlador = new ServicioControlador(tallerServicio);
+        this.menuServicio = new MenuServicio(servicioControlador);
     }
 
     public void iniciar() {
@@ -40,7 +52,7 @@ public class MenuPrincipal {
             System.out.println("1. Gestión de Clientes");
             System.out.println("2. Gestión de Vehículos (Próximamente)");
             System.out.println("3. Gestión de Proveedores y Catálogos");
-            System.out.println("4. Gestión de Servicios y Taller (Próximamente)");
+            System.out.println("4. Gestión de Servicios y Taller");
             System.out.println("5. Facturación (Próximamente)");
             System.out.println("0. Salir");
             System.out.println("=========================================");
@@ -59,14 +71,14 @@ public class MenuPrincipal {
                     clienteView.mostrarMenu();
                     break;
                 case 2:
+                case 5:
                     System.out.println("[Aviso] Módulo en desarrollo.");
                     break;
                 case 3:
                     menuProveedor.mostrarMenu();
                     break;
                 case 4:
-                case 5:
-                    System.out.println("[Aviso] Módulo en desarrollo.");
+                    menuServicio.mostrarMenu();
                     break;
                 case 0:
                     System.out.println("Saliendo del sistema. ¡Hasta pronto!");
