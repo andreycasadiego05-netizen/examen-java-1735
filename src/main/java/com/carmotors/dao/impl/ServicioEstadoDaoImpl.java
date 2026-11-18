@@ -18,8 +18,8 @@ public class ServicioEstadoDaoImpl implements ServicioEstadoDao {
     @Override
     public void guardar(ServicioEstado servicioEstado) {
         String sql = "INSERT INTO servicio_estados (nombre) VALUES (?)";
-        Connection conn = ConexionFactory.getConnection();
-        try (PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection conn = ConexionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, servicioEstado.getNombre());
             stmt.executeUpdate();
             try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
@@ -35,8 +35,8 @@ public class ServicioEstadoDaoImpl implements ServicioEstadoDao {
     @Override
     public Optional<ServicioEstado> buscarPorId(int id) {
         String sql = "SELECT id, nombre FROM servicio_estados WHERE id = ?";
-        Connection conn = ConexionFactory.getConnection();
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = ConexionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -52,8 +52,8 @@ public class ServicioEstadoDaoImpl implements ServicioEstadoDao {
     @Override
     public Optional<ServicioEstado> buscarPorNombre(String nombre) {
         String sql = "SELECT id, nombre FROM servicio_estados WHERE LOWER(nombre) = LOWER(?)";
-        Connection conn = ConexionFactory.getConnection();
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = ConexionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, nombre);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -70,8 +70,8 @@ public class ServicioEstadoDaoImpl implements ServicioEstadoDao {
     public List<ServicioEstado> listarTodos() {
         String sql = "SELECT id, nombre FROM servicio_estados";
         List<ServicioEstado> lista = new ArrayList<>();
-        Connection conn = ConexionFactory.getConnection();
-        try (PreparedStatement stmt = conn.prepareStatement(sql);
+        try (Connection conn = ConexionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 lista.add(mapearServicioEstado(rs));
@@ -85,8 +85,8 @@ public class ServicioEstadoDaoImpl implements ServicioEstadoDao {
     @Override
     public void eliminar(int id) {
         String sql = "DELETE FROM servicio_estados WHERE id = ?";
-        Connection conn = ConexionFactory.getConnection();
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = ConexionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();
         } catch (SQLException e) {

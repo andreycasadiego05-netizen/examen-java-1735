@@ -69,6 +69,15 @@ public class Cliente {
         this.correoElectronico = correoElectronico;
     }
 
+    // Métodos alias para compatibilidad
+    public String getEmail() {
+        return correoElectronico;
+    }
+
+    public void setEmail(String email) {
+        this.correoElectronico = email;
+    }
+
     @Override
     public String toString() {
         return "Cliente{" +

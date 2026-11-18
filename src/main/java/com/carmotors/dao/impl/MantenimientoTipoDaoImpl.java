@@ -18,8 +18,8 @@ public class MantenimientoTipoDaoImpl implements MantenimientoTipoDao {
     @Override
     public void guardar(MantenimientoTipo mantenimientoTipo) {
         String sql = "INSERT INTO mantenimiento_tipos (nombre) VALUES (?)";
-        Connection conn = ConexionFactory.getConnection();
-        try (PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (Connection conn = ConexionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, mantenimientoTipo.getNombre());
             stmt.executeUpdate();
             try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
@@ -35,8 +35,8 @@ public class MantenimientoTipoDaoImpl implements MantenimientoTipoDao {
     @Override
     public Optional<MantenimientoTipo> buscarPorId(int id) {
         String sql = "SELECT id, nombre FROM mantenimiento_tipos WHERE id = ?";
-        Connection conn = ConexionFactory.getConnection();
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = ConexionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -52,8 +52,8 @@ public class MantenimientoTipoDaoImpl implements MantenimientoTipoDao {
     @Override
     public Optional<MantenimientoTipo> buscarPorNombre(String nombre) {
         String sql = "SELECT id, nombre FROM mantenimiento_tipos WHERE LOWER(nombre) = LOWER(?)";
-        Connection conn = ConexionFactory.getConnection();
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = ConexionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, nombre);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -70,8 +70,8 @@ public class MantenimientoTipoDaoImpl implements MantenimientoTipoDao {
     public List<MantenimientoTipo> listarTodos() {
         String sql = "SELECT id, nombre FROM mantenimiento_tipos";
         List<MantenimientoTipo> lista = new ArrayList<>();
-        Connection conn = ConexionFactory.getConnection();
-        try (PreparedStatement stmt = conn.prepareStatement(sql);
+        try (Connection conn = ConexionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 lista.add(mapearMantenimientoTipo(rs));
@@ -85,8 +85,8 @@ public class MantenimientoTipoDaoImpl implements MantenimientoTipoDao {
     @Override
     public void eliminar(int id) {
         String sql = "DELETE FROM mantenimiento_tipos WHERE id = ?";
-        Connection conn = ConexionFactory.getConnection();
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = ConexionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();
         } catch (SQLException e) {

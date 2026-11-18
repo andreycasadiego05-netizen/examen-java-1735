@@ -3,6 +3,7 @@ package com.carmotors.modelo;
 import java.util.Objects;
 
 public class RepuestoTipo {
+
     private Integer id;
     private String nombre;
 
