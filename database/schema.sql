@@ -50,7 +50,18 @@ CREATE TABLE vehiculos (
 CREATE TABLE proveedores (
                              id INT AUTO_INCREMENT PRIMARY KEY,
                              nombre VARCHAR(255) NOT NULL,
-                             contacto VARCHAR(255)
+                             identificacion_fiscal VARCHAR(50) UNIQUE NOT NULL,
+                             contacto VARCHAR(255) NOT NULL,
+                             telefono VARCHAR(50),
+                             correo VARCHAR(100),
+                             direccion VARCHAR(255)
+) ENGINE=InnoDB;
+
+CREATE TABLE proveedor_suministros (
+                                      id INT AUTO_INCREMENT PRIMARY KEY,
+                                      proveedor_id INT NOT NULL,
+                                      suministro VARCHAR(255) NOT NULL,
+                                      CONSTRAINT fk_suministros_proveedor FOREIGN KEY (proveedor_id) REFERENCES proveedores(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE repuestos (
