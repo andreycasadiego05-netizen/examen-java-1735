@@ -1,7 +1,7 @@
 package com.carmotors.servicio;
 
 import com.carmotors.DAO.RepuestoTipoDao;
-import com.carmotors.DAO.RepuestoTipoDaoImpl;
+import com.carmotors.DAO.impl.RepuestoTipoDaoImpl;
 import com.carmotors.dao.ProveedorDao;
 import com.carmotors.modelo.Proveedor;
 import com.carmotors.modelo.RepuestoTipo;
@@ -64,14 +64,24 @@ public class ProveedorServicio {
 
     // Sobrecarga para compatibilidad previa
     public Proveedor registrarProveedor(String nombre, String contacto) {
+        if (nombre == null || nombre.isBlank()) {
+            throw new IllegalArgumentException("El nombre del proveedor no puede estar vacío.");
+        }
+        if (contacto == null || contacto.isBlank()) {
+            throw new IllegalArgumentException("La información de contacto del proveedor es obligatoria.");
+        }
+
         Proveedor proveedor = new Proveedor();
-        proveedor.setNombre(nombre);
-        proveedor.setContacto(contacto);
+        proveedor.setNombre(nombre.trim());
+        proveedor.setContacto(contacto.trim());
         proveedor.setIdentificacionFiscal("TEMP-" + System.currentTimeMillis());
         return registrarProveedor(proveedor);
     }
 
     public Optional<Proveedor> buscarPorId(int id) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("El ID del proveedor debe ser mayor a cero.");
+        }
         return proveedorDao.buscarPorId(id);
     }
 
@@ -91,12 +101,13 @@ public class ProveedorServicio {
 
     // Requisito de Programación Funcional: Filtrar proveedores por coincidencia de texto en el nombre
     public List<Proveedor> buscarProveedoresPorNombre(String termino) {
-        if (termino == null || termino.trim().isEmpty()) {
-            return List.of();
+        if (termino == null || termino.isBlank()) {
+            return listarProveedoresOrdenados();
         }
         String filtro = termino.toLowerCase().trim();
         return proveedorDao.listarTodos().stream()
                 .filter(p -> p.getNombre() != null && p.getNombre().toLowerCase().contains(filtro))
+                .sorted(Comparator.comparing(Proveedor::getNombre, String.CASE_INSENSITIVE_ORDER))
                 .collect(Collectors.toList());
     }
 
@@ -123,6 +134,9 @@ public class ProveedorServicio {
     }
 
     public void eliminarProveedor(int id) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("El ID del proveedor debe ser mayor a cero.");
+        }
         Optional<Proveedor> existente = proveedorDao.buscarPorId(id);
         if (existente.isEmpty()) {
             throw new IllegalArgumentException("No se encontró ningún proveedor con el ID: " + id);
@@ -131,10 +145,12 @@ public class ProveedorServicio {
     }
 
     public List<RepuestoTipo> listarTiposRepuesto() {
-        if (repuestoTipoDao != null) {
-            return repuestoTipoDao.listarTodos();
+        if (repuestoTipoDao == null) {
+            return List.of();
         }
-        return List.of();
+        return repuestoTipoDao.listarTodos().stream()
+                .sorted(Comparator.comparing(RepuestoTipo::getId))
+                .collect(Collectors.toList());
     }
 
     private void validarCamposProveedor(Proveedor proveedor) {
