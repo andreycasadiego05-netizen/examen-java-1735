@@ -1,8 +1,11 @@
 package com.carmotors.vista;
 
 import com.carmotors.controlador.ClienteControlador;
+import com.carmotors.controlador.ProveedorControlador;
 import com.carmotors.dao.impl.ClienteDaoImpl;
+import com.carmotors.dao.impl.ProveedorDaoImpl;
 import com.carmotors.servicio.ClienteServicio;
+import com.carmotors.servicio.ProveedorServicio;
 
 import java.util.Scanner;
 
@@ -10,14 +13,22 @@ public class MenuPrincipal {
 
     private final Scanner scanner;
     private final ClienteView clienteView;
+    private final MenuProveedor menuProveedor;
 
     public MenuPrincipal() {
         this.scanner = new Scanner(System.in);
+
         // Inicializar componentes del módulo Clientes
         ClienteDaoImpl clienteDao = new ClienteDaoImpl();
         ClienteServicio clienteServicio = new ClienteServicio(clienteDao);
         ClienteControlador clienteControlador = new ClienteControlador(clienteServicio);
         this.clienteView = new ClienteView(clienteControlador);
+
+        // Inicializar componentes del módulo Proveedores
+        ProveedorDaoImpl proveedorDao = new ProveedorDaoImpl();
+        ProveedorServicio proveedorServicio = new ProveedorServicio(proveedorDao);
+        ProveedorControlador proveedorControlador = new ProveedorControlador(proveedorServicio);
+        this.menuProveedor = new MenuProveedor(proveedorControlador);
     }
 
     public void iniciar() {
@@ -28,7 +39,7 @@ public class MenuPrincipal {
             System.out.println("=========================================");
             System.out.println("1. Gestión de Clientes");
             System.out.println("2. Gestión de Vehículos (Próximamente)");
-            System.out.println("3. Gestión de Proveedores y Catálogos (Próximamente)");
+            System.out.println("3. Gestión de Proveedores y Catálogos");
             System.out.println("4. Gestión de Servicios y Taller (Próximamente)");
             System.out.println("5. Facturación (Próximamente)");
             System.out.println("0. Salir");
@@ -48,7 +59,11 @@ public class MenuPrincipal {
                     clienteView.mostrarMenu();
                     break;
                 case 2:
+                    System.out.println("[Aviso] Módulo en desarrollo.");
+                    break;
                 case 3:
+                    menuProveedor.mostrarMenu();
+                    break;
                 case 4:
                 case 5:
                     System.out.println("[Aviso] Módulo en desarrollo.");
