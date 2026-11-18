@@ -1,4 +1,4 @@
-package com.carmotors.DAO;
+package com.carmotors.DAO.impl;
 
 import com.carmotors.DAO.ProveedorDao;
 import com.carmotors.modelo.Proveedor;
