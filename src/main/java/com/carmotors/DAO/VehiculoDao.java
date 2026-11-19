@@ -1,4 +1,4 @@
-package com.carmotors.DAO;
+﻿package com.carmotors.dao;
 
 import com.carmotors.modelo.Vehiculo;
 import java.util.List;

@@ -1,7 +1,7 @@
-package com.carmotors.DAO.impl;
+﻿package com.carmotors.dao.impl;
 
 import com.carmotors.config.ConexionFactory;
-import com.carmotors.DAO.RepuestoTipoDao;
+import com.carmotors.dao.RepuestoTipoDao;
 import com.carmotors.modelo.RepuestoTipo;
 
 import java.sql.Connection;
