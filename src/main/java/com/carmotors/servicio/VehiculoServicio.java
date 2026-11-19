@@ -1,6 +1,6 @@
 package com.carmotors.servicio;
 
-import com.carmotors.DAO.VehiculoDao;
+import com.carmotors.dao.VehiculoDao;
 import com.carmotors.modelo.Vehiculo;
 import com.carmotors.servicio.validador.ClienteValidador;
 
