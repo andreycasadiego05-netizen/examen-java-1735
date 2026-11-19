@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class InventarioServicio {
+public class InventarioServicio implements InventarioServiceContract {
 
     private final RepuestoDao repuestoDao;
 
@@ -32,6 +32,12 @@ public class InventarioServicio {
         }
         if (stockActual < 0 || stockMinimo < 0) {
             throw new IllegalArgumentException("Los valores de stock no pueden ser negativos.");
+        }
+        if (repuestoTipoId <= 0) {
+            throw new IllegalArgumentException("El ID del tipo de repuesto debe ser mayor a cero.");
+        }
+        if (proveedorId <= 0) {
+            throw new IllegalArgumentException("El ID del proveedor debe ser mayor a cero.");
         }
         if (repuestoDao.buscarPorCodigo(codigo.trim().toUpperCase()).isPresent()) {
             throw new IllegalArgumentException("Ya existe un repuesto registrado con el código: " + codigo);
@@ -81,7 +87,7 @@ public class InventarioServicio {
 
     public List<Repuesto> listarTodos() {
         return repuestoDao.listarTodos().stream()
-                .sorted(Comparator.comparing(Repuesto::getNombre))
+                .sorted(Comparator.comparing(Repuesto::getNombre, Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER)))
                 .collect(Collectors.toList());
     }
 
@@ -98,5 +104,22 @@ public class InventarioServicio {
             return Optional.empty();
         }
         return repuestoDao.buscarPorCodigo(codigo.trim().toUpperCase());
+    }
+
+    @Override
+    public boolean verificarYDescontarStock(int repuestoId, int cantidad) {
+        if (repuestoId <= 0 || cantidad <= 0) {
+            return false;
+        }
+        Optional<Repuesto> repuestoOpt = repuestoDao.buscarPorId(repuestoId);
+        if (repuestoOpt.isEmpty()) {
+            return false;
+        }
+        Repuesto repuesto = repuestoOpt.get();
+        if (repuesto.getStockActual() < cantidad) {
+            return false;
+        }
+        repuestoDao.actualizarStock(repuestoId, repuesto.getStockActual() - cantidad);
+        return true;
     }
 }

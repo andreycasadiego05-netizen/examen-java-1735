@@ -151,35 +151,29 @@ public class CatalogoServicio {
     public void sembrarCatalogosBase() {
         if (repuestoTipoDao.listarTodos().isEmpty()) {
             List.of(
-                    "Aceites y Lubricantes",
-                    "Baterías",
-                    "Filtros",
                     "Frenos",
                     "Motor",
-                    "Neumáticos",
+                    "Suspensión y Dirección",
                     "Sistema Eléctrico",
-                    "Suspensión"
+                    "Fluidos y Filtros"
             ).forEach(nombre -> repuestoTipoDao.guardar(new RepuestoTipo(nombre)));
         }
 
         if (servicioEstadoDao.listarTodos().isEmpty()) {
             List.of(
-                    "Cancelado",
-                    "En Espera de Repuestos",
+                    "Recibido",
+                    "En Diagnóstico",
                     "En Proceso",
-                    "Entregado",
                     "Finalizado",
-                    "Pendiente"
+                    "Cancelado"
             ).forEach(nombre -> servicioEstadoDao.guardar(new ServicioEstado(nombre)));
         }
 
         if (mantenimientoTipoDao.listarTodos().isEmpty()) {
             List.of(
-                    "Correctivo",
-                    "Diagnóstico General",
-                    "Inspección de Seguridad",
-                    "Predictivo",
-                    "Preventivo"
+                    "Mantenimiento Preventivo",
+                    "Mantenimiento Correctivo",
+                    "Revisión y Diagnóstico General"
             ).forEach(nombre -> mantenimientoTipoDao.guardar(new MantenimientoTipo(nombre)));
         }
     }
