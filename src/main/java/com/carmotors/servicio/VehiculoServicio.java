@@ -1,4 +1,4 @@
-﻿package com.carmotors.servicio;
+package com.carmotors.servicio;
 
 import com.carmotors.dao.VehiculoDao;
 import com.carmotors.modelo.Vehiculo;

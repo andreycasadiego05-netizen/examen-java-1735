@@ -1,7 +1,7 @@
 package com.carmotors.servicio;
 
-import com.carmotors.DAO.RepuestoTipoDao;
-import com.carmotors.DAO.impl.RepuestoTipoDaoImpl;
+import com.carmotors.dao.RepuestoTipoDao;
+import com.carmotors.dao.impl.RepuestoTipoDaoImpl;
 import com.carmotors.dao.ProveedorDao;
 import com.carmotors.modelo.Proveedor;
 import com.carmotors.modelo.RepuestoTipo;
