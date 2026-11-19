@@ -18,6 +18,9 @@ public class ClienteServicio {
     }
 
     public void registrarCliente(Cliente cliente) throws Exception {
+        if (cliente == null) {
+            throw new IllegalArgumentException("El cliente no puede ser nulo.");
+        }
         // 1. Validar que los campos obligatorios no vengan vacíos o nulos
         String email = cliente.getCorreoElectronico() != null ? cliente.getCorreoElectronico() : cliente.getEmail();
         if (cliente.getNombre() == null || cliente.getNombre().trim().isEmpty() ||
@@ -47,7 +50,7 @@ public class ClienteServicio {
     // Requisito de Programación Funcional: Listar ordenados alfabéticamente por nombre
     public List<Cliente> listarClientesOrdenadosPorNombre() {
         return clienteDao.listarTodos().stream()
-                .sorted(Comparator.comparing(Cliente::getNombre, String.CASE_INSENSITIVE_ORDER))
+                .sorted(Comparator.comparing(Cliente::getNombre, Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER)))
                 .collect(Collectors.toList());
     }
 
@@ -57,7 +60,7 @@ public class ClienteServicio {
             return List.of();
         }
         return clienteDao.listarTodos().stream()
-                .filter(c -> c.getNombre().toLowerCase().contains(termino.toLowerCase()))
+                .filter(c -> c.getNombre() != null && c.getNombre().toLowerCase().contains(termino.toLowerCase()))
                 .collect(Collectors.toList());
     }
 }

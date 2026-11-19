@@ -95,7 +95,7 @@ public class ProveedorServicio {
     // Requisito de Programación Funcional: Listar ordenados alfabéticamente por nombre
     public List<Proveedor> listarProveedoresOrdenados() {
         return proveedorDao.listarTodos().stream()
-                .sorted(Comparator.comparing(Proveedor::getNombre, String.CASE_INSENSITIVE_ORDER))
+                .sorted(Comparator.comparing(Proveedor::getNombre, Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER)))
                 .collect(Collectors.toList());
     }
 
@@ -107,7 +107,7 @@ public class ProveedorServicio {
         String filtro = termino.toLowerCase().trim();
         return proveedorDao.listarTodos().stream()
                 .filter(p -> p.getNombre() != null && p.getNombre().toLowerCase().contains(filtro))
-                .sorted(Comparator.comparing(Proveedor::getNombre, String.CASE_INSENSITIVE_ORDER))
+                .sorted(Comparator.comparing(Proveedor::getNombre, Comparator.nullsLast(String.CASE_INSENSITIVE_ORDER)))
                 .collect(Collectors.toList());
     }
 

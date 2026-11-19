@@ -41,6 +41,13 @@ public class VehiculoServicio {
             throw new IllegalArgumentException("El año del vehículo no es válido.");
         }
 
+        if (marca == null || marca.isBlank()) {
+            throw new IllegalArgumentException("La marca del vehículo no puede estar vacía.");
+        }
+        if (modelo == null || modelo.isBlank()) {
+            throw new IllegalArgumentException("El modelo del vehículo no puede estar vacío.");
+        }
+
         Vehiculo vehiculo = new Vehiculo(clienteId, placaNormalizada, marca.trim(), modelo.trim(), anio, kilometraje);
         vehiculoDao.guardar(vehiculo);
         return vehiculo;

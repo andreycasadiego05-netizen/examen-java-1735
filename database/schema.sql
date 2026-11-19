@@ -44,6 +44,9 @@ CREATE TABLE vehiculos (
                            placa VARCHAR(10) UNIQUE NOT NULL,
                            marca VARCHAR(50),
                            modelo VARCHAR(50),
+                           anio INT NOT NULL DEFAULT 0,
+                           kilometraje INT NOT NULL DEFAULT 0,
+                           activo BOOLEAN NOT NULL DEFAULT TRUE,
                            CONSTRAINT fk_vehiculos_cliente FOREIGN KEY (cliente_id) REFERENCES clientes(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
@@ -66,6 +69,7 @@ CREATE TABLE proveedor_suministros (
 
 CREATE TABLE repuestos (
                            id INT AUTO_INCREMENT PRIMARY KEY,
+                           codigo VARCHAR(50) UNIQUE NOT NULL,
                            nombre VARCHAR(255) NOT NULL,
                            repuesto_tipo_id INT NOT NULL,
                            proveedor_id INT NOT NULL,
@@ -73,6 +77,7 @@ CREATE TABLE repuestos (
                            precio_venta DECIMAL(10, 2) NOT NULL,
                            cantidad_stock INT NOT NULL,
                            stock_minimo INT NOT NULL,
+                           ubicacion VARCHAR(100),
                            CONSTRAINT fk_repuestos_tipo FOREIGN KEY (repuesto_tipo_id) REFERENCES repuesto_tipos(id),
                            CONSTRAINT fk_repuestos_proveedor FOREIGN KEY (proveedor_id) REFERENCES proveedores(id)
 ) ENGINE=InnoDB;

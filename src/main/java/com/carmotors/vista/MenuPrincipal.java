@@ -2,19 +2,21 @@ package com.carmotors.vista;
 
 import com.carmotors.controlador.ClienteControlador;
 import com.carmotors.controlador.FacturaControlador;
+import com.carmotors.controlador.InventarioControlador;
 import com.carmotors.controlador.ProveedorControlador;
 import com.carmotors.controlador.ServicioControlador;
 import com.carmotors.controlador.VehiculoControlador;
 import com.carmotors.dao.impl.ClienteDaoImpl;
 import com.carmotors.dao.impl.FacturaDaoImpl;
 import com.carmotors.dao.impl.ProveedorDaoImpl;
+import com.carmotors.dao.impl.RepuestoDaoImpl;
 import com.carmotors.dao.impl.ServicioDaoImpl;
 import com.carmotors.dao.impl.VehiculoDaoImpl;
 import com.carmotors.servicio.ClienteServicio;
 import com.carmotors.servicio.FacturaServicio;
-import com.carmotors.servicio.InventarioServiceMock;
+import com.carmotors.servicio.InventarioServicio;
 import com.carmotors.servicio.ProveedorServicio;
-import com.carmotors.servicio.ServicioResumenMock;
+import com.carmotors.servicio.ServicioResumenDaoAdapter;
 import com.carmotors.servicio.TallerServicio;
 import com.carmotors.servicio.VehiculoServicio;
 import com.carmotors.servicio.validador.ClienteValidadorDaoAdapter;
@@ -27,6 +29,7 @@ public class MenuPrincipal {
     private final ClienteView clienteView;
     private final MenuVehiculo menuVehiculo;
     private final MenuProveedor menuProveedor;
+    private final MenuInventario menuInventario;
     private final MenuServicio menuServicio;
     private final MenuFactura menuFactura;
     private final MenuCatalogo menuCatalogo;
@@ -53,16 +56,21 @@ public class MenuPrincipal {
         ProveedorControlador proveedorControlador = new ProveedorControlador(proveedorServicio);
         this.menuProveedor = new MenuProveedor(proveedorControlador);
 
-        // Inicializar componentes del modulo Servicios y Taller
+        // Inicializar componentes del modulo Inventario y Repuestos
+        RepuestoDaoImpl repuestoDao = new RepuestoDaoImpl();
+        InventarioServicio inventarioServicio = new InventarioServicio(repuestoDao);
+        InventarioControlador inventarioControlador = new InventarioControlador(inventarioServicio);
+        this.menuInventario = new MenuInventario(inventarioControlador, scanner);
+
+        // Inicializar componentes del modulo Servicios y Taller (conectado al inventario real)
         ServicioDaoImpl servicioDao = new ServicioDaoImpl();
-        InventarioServiceMock inventarioMock = new InventarioServiceMock();
-        TallerServicio tallerServicio = new TallerServicio(servicioDao, inventarioMock);
+        TallerServicio tallerServicio = new TallerServicio(servicioDao, inventarioServicio);
         ServicioControlador servicioControlador = new ServicioControlador(tallerServicio);
         this.menuServicio = new MenuServicio(servicioControlador);
 
-        // Inicializar componentes del modulo Facturacion (opcion 5)
+        // Inicializar componentes del modulo Facturacion (conectado a los servicios reales)
         FacturaDaoImpl facturaDao = new FacturaDaoImpl();
-        ServicioResumenMock servicioResumen = new ServicioResumenMock();
+        ServicioResumenDaoAdapter servicioResumen = new ServicioResumenDaoAdapter(servicioDao);
         FacturaServicio facturaServicio = new FacturaServicio(facturaDao, servicioResumen);
         FacturaControlador facturaControlador = new FacturaControlador(facturaServicio);
         this.menuFactura = new MenuFactura(scanner, facturaControlador);
@@ -80,9 +88,10 @@ public class MenuPrincipal {
             System.out.println("1. Gestion de Clientes");
             System.out.println("2. Gestion de Vehiculos");
             System.out.println("3. Gestion de Proveedores");
-            System.out.println("4. Gestion de Servicios y Taller");
-            System.out.println("5. Facturacion y Cobros");
-            System.out.println("6. Gestion de Catalogos del Sistema");
+            System.out.println("4. Gestion de Inventario y Repuestos");
+            System.out.println("5. Gestion de Servicios y Taller");
+            System.out.println("6. Facturacion y Cobros");
+            System.out.println("7. Gestion de Catalogos del Sistema");
             System.out.println("0. Salir");
             System.out.println("=========================================");
             System.out.print("Seleccione una opcion: ");
@@ -106,12 +115,15 @@ public class MenuPrincipal {
                     menuProveedor.mostrarMenu();
                     break;
                 case 4:
-                    menuServicio.mostrarMenu();
+                    menuInventario.mostrarMenu();
                     break;
                 case 5:
-                    menuFactura.mostrarMenu();
+                    menuServicio.mostrarMenu();
                     break;
                 case 6:
+                    menuFactura.mostrarMenu();
+                    break;
+                case 7:
                     menuCatalogo.mostrarMenu();
                     break;
                 case 0:
