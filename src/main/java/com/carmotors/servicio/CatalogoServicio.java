@@ -4,7 +4,7 @@ import com.carmotors.dao.MantenimientoTipoDao;
 import com.carmotors.dao.RepuestoTipoDao;
 import com.carmotors.dao.ServicioEstadoDao;
 import com.carmotors.dao.impl.MantenimientoTipoDaoImpl;
-import com.carmotors.DAO.impl.RepuestoTipoDaoImpl;
+import com.carmotors.dao.impl.RepuestoTipoDaoImpl;
 import com.carmotors.dao.impl.ServicioEstadoDaoImpl;
 import com.carmotors.exception.CatalogoException;
 import com.carmotors.modelo.MantenimientoTipo;
