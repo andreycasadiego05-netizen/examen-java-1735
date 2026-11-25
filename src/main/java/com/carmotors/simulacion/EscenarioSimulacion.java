@@ -2,7 +2,12 @@ package com.carmotors.simulacion;
 
 import com.carmotors.dao.ClienteDao;
 import com.carmotors.dao.RepuestoDao;
+import com.carmotors.dao.ServicioDao;
 import com.carmotors.dao.VehiculoDao;
+import com.carmotors.dao.impl.ClienteDaoImpl;
+import com.carmotors.dao.impl.RepuestoDaoImpl;
+import com.carmotors.dao.impl.ServicioDaoImpl;
+import com.carmotors.dao.impl.VehiculoDaoImpl;
 import com.carmotors.modelo.Cliente;
 import com.carmotors.modelo.Repuesto;
 import com.carmotors.modelo.Servicio;
@@ -14,18 +19,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EscenarioSimulacion {
+
     private final RepuestoDao repuestoDao;
     private final ClienteDao clienteDao;
     private final VehiculoDao vehiculoDao;
     private final InventarioServicio inventarioServicio;
     private final TallerServicio tallerServicio;
 
-    public EscenarioSimulacion(RepuestoDao repuestoDao, ClienteDao clienteDao, VehiculoDao vehiculoDao, InventarioServicio inventarioServicio, TallerServicio tallerServicio) {
-        this.repuestoDao = repuestoDao;
-        this.clienteDao = clienteDao;
-        this.vehiculoDao = vehiculoDao;
-        this.inventarioServicio = inventarioServicio;
-        this.tallerServicio = tallerServicio;
+    public EscenarioSimulacion() {
+        this.repuestoDao = new RepuestoDaoImpl();
+        this.clienteDao = new ClienteDaoImpl();
+        this.vehiculoDao = new VehiculoDaoImpl();
+        ServicioDao servicioDao = new ServicioDaoImpl();
+        this.inventarioServicio = new InventarioServicio(repuestoDao);
+        this.tallerServicio = new TallerServicio(servicioDao, inventarioServicio);
+    }
+
+    public RepuestoDao getRepuestoDao() {
+        return repuestoDao;
+    }
+
+    public TallerServicio getTallerServicio() {
+        return tallerServicio;
     }
 
     public Repuesto prepararRepuestoConStockUno() {
