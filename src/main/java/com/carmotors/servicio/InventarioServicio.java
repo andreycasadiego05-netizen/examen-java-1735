@@ -106,6 +106,19 @@ public class InventarioServicio implements InventarioServiceContract {
         return repuestoDao.buscarPorCodigo(codigo.trim().toUpperCase());
     }
 
+    /**
+     * Verifica si hay stock suficiente y lo descuenta de forma <b>thread-safe</b>.
+     *
+     * <p><b>Sección crítica:</b> la secuencia leer-validar-escribir está protegida
+     * con {@code synchronized} sobre la instancia del servicio, garantizando que
+     * solo un hilo a la vez pueda ejecutarla. Esto elimina la condición de carrera
+     * (race condition) donde dos técnicos podían reservar simultáneamente la última
+     * unidad disponible.</p>
+     *
+     * @param repuestoId identificador del repuesto a descontar
+     * @param cantidad   unidades requeridas
+     * @return {@code true} si había stock suficiente y fue descontado; {@code false} en caso contrario
+     */
     @Override
     public synchronized boolean verificarYDescontarStock(int repuestoId, int cantidad) {
         if (repuestoId <= 0 || cantidad <= 0) {
