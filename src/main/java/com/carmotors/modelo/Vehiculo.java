@@ -1,6 +1,6 @@
 package com.carmotors.modelo;
 
-public class Vehiculo {
+public class  Vehiculo {
 
     private Integer id;
     private Integer clienteId;

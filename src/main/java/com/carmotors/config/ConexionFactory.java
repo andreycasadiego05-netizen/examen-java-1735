@@ -13,7 +13,7 @@ public class ConexionFactory {
     private static final String DEFAULT_DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String DEFAULT_URL = "jdbc:mysql://localhost:3306/carmotors_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     private static final String DEFAULT_USER = "root";
-    private static final String DEFAULT_PASSWORD = "";
+    private static final String DEFAULT_PASSWORD = "Campus2023!";
 
     private static volatile ConexionFactory instance;
 

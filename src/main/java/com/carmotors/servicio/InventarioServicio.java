@@ -59,7 +59,7 @@ public class InventarioServicio implements InventarioServiceContract {
         return repuesto;
     }
 
-    public void registrarEntradaStock(int repuestoId, int cantidad) {
+    public synchronized void registrarEntradaStock(int repuestoId, int cantidad) {
         if (cantidad <= 0) {
             throw new IllegalArgumentException("La cantidad de entrada debe ser mayor a cero.");
         }
@@ -70,7 +70,7 @@ public class InventarioServicio implements InventarioServiceContract {
         repuestoDao.actualizarStock(repuestoId, nuevoStock);
     }
 
-    public void registrarSalidaStock(int repuestoId, int cantidad) {
+    public synchronized void registrarSalidaStock(int repuestoId, int cantidad) {
         if (cantidad <= 0) {
             throw new IllegalArgumentException("La cantidad de salida debe ser mayor a cero.");
         }
@@ -107,7 +107,7 @@ public class InventarioServicio implements InventarioServiceContract {
     }
 
     @Override
-    public boolean verificarYDescontarStock(int repuestoId, int cantidad) {
+    public synchronized boolean verificarYDescontarStock(int repuestoId, int cantidad) {
         if (repuestoId <= 0 || cantidad <= 0) {
             return false;
         }
